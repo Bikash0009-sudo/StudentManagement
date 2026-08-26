@@ -37,34 +37,34 @@
                 </tr>
             </thead>
 
-            <tbody>
-                @foreach (var student in Model)
-                {
-                    <tr>
-                        <td>@student.FirstName</td>
-                        <td>@student.LastName</td>
-                        <td>@student.Email</td>
-                        <td>@student.Gender</td>
-                        <td>@student.CountryId</td>
-                        <td>@student.StateId</td>
-                        <td>@student.CityId</td>
+<tbody>
+    @foreach (var student in Model)
+    {
+        <tr>
+            <td>@student.FirstName</td>
+            <td>@student.LastName</td>
+            <td>@student.Email</td>
+            <td>@student.Gender</td>
+            <td>@student.Country</td>
+            <td>@student.State</td>
+            <td>@student.City</td>
 
-                        <td>
-                            <a asp-action="Edit"
-                               asp-route-id="@student.Id"
-                               class="btn btn-sm btn-warning">
-                                Edit
-                            </a>
+            <td>
+                <a asp-action="Edit"
+                   asp-route-id="@student.Id"
+                   class="btn btn-sm btn-warning">
+                    Edit
+                </a>
 
-                            <a asp-action="Delete"
-                               asp-route-id="@student.Id"
-                               class="btn btn-sm btn-danger">
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
+                <a asp-action="Delete"
+                   asp-route-id="@student.Id"
+                   class="btn btn-sm btn-danger">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    }
+</tbody>
 
         </table>
     }

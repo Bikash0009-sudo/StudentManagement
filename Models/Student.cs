@@ -16,16 +16,15 @@ namespace StudentManagementSystem.Models
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
-        [Required]
         public string Gender { get; set; } = string.Empty;
 
-        [Required]
         public int CountryId { get; set; }
-
-        [Required]
         public int StateId { get; set; }
-
-        [Required]
         public int CityId { get; set; }
+
+        // These are populated by the controller
+        public string Country { get; set; } = string.Empty;
+        public string State { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
     }
 }

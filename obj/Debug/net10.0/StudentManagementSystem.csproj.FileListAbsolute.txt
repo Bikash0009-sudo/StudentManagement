@@ -229,3 +229,4 @@ C:\Users\Aspire 7\OneDrive\Desktop\StudentManagementSystem\StudentManagementSyst
 C:\Users\Aspire 7\OneDrive\Desktop\StudentManagementSystem\StudentManagementSystem\obj\Debug\net10.0\StudentManagementSystem.pdb
 C:\Users\Aspire 7\OneDrive\Desktop\StudentManagementSystem\StudentManagementSystem\obj\Debug\net10.0\StudentManagementSystem.genruntimeconfig.cache
 C:\Users\Aspire 7\OneDrive\Desktop\StudentManagementSystem\StudentManagementSystem\obj\Debug\net10.0\ref\StudentManagementSystem.dll
+C:\Users\Aspire 7\OneDrive\Desktop\StudentManagementSystem\StudentManagementSystem\obj\Debug\net10.0\StudentManagementSystem.sourcelink.json
