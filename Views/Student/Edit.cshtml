@@ -4,115 +4,124 @@
     ViewData["Title"] = "Edit Student";
 }
 
-<h1>Edit Student</h1>
+<div class="container mt-4">
 
-<form asp-action="Edit" method="post">
+    <h1>Edit Student</h1>
 
-    <input type="hidden" asp-for="Id" />
+    <form asp-action="Edit" method="post">
 
-    <div class="mb-3">
-        <label asp-for="FirstName" class="form-label"></label>
-        <input asp-for="FirstName" class="form-control" />
-        <span asp-validation-for="FirstName" class="text-danger"></span>
-    </div>
+        <input type="hidden" asp-for="Id" />
 
-    <div class="mb-3">
-        <label asp-for="LastName" class="form-label"></label>
-        <input asp-for="LastName" class="form-control" />
-        <span asp-validation-for="LastName" class="text-danger"></span>
-    </div>
+        <!-- First Name -->
+        <div class="mb-3">
+            <label asp-for="FirstName" class="form-label"></label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
+        <!-- Last Name -->
+        <div class="mb-3">
+            <label asp-for="LastName" class="form-label"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
 
-    <div class="mb-3">
-        <label asp-for="Gender" class="form-label"></label>
-        <input asp-for="Gender" class="form-control" />
-        <span asp-validation-for="Gender" class="text-danger"></span>
-    </div>
+        <!-- Email -->
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
 
-    <!-- Country -->
-    <div class="mb-3">
-        <label asp-for="CountryId" class="form-label">Country</label>
+        <!-- Gender -->
+        <div class="mb-3">
+            <label asp-for="Gender" class="form-label"></label>
+            <input asp-for="Gender" class="form-control" />
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
 
-        <select asp-for="CountryId"
-                asp-items="ViewBag.Countries"
-                class="form-select"
-                id="country">
+        <!-- Country -->
+        <div class="mb-3">
+            <label class="form-label">Country</label>
 
-            <option value="">-- Select Country --</option>
+            <select asp-for="CountryId"
+                    asp-items="ViewBag.Countries"
+                    class="form-select"
+                    id="country">
 
-        </select>
-    </div>
+                <option value="">-- Select Country --</option>
 
-    <!-- State -->
-    <div class="mb-3">
-        <label asp-for="StateId" class="form-label">State</label>
+            </select>
+        </div>
 
-        <select asp-for="StateId"
-                class="form-select"
-                id="state">
+        <!-- State -->
+        <div class="mb-3">
+            <label class="form-label">State</label>
 
-            <option value="">-- Select State --</option>
+            <select asp-for="StateId"
+                    class="form-select"
+                    id="state">
 
-        </select>
-    </div>
+                <option value="">-- Select State --</option>
 
-    <!-- City -->
-    <div class="mb-3">
-        <label asp-for="CityId" class="form-label">City</label>
+            </select>
+        </div>
 
-        <select asp-for="CityId"
-                class="form-select"
-                id="city">
+        <!-- City -->
+        <div class="mb-3">
+            <label class="form-label">City</label>
 
-            <option value="">-- Select City --</option>
+            <select asp-for="CityId"
+                    class="form-select"
+                    id="city">
 
-        </select>
-    </div>
+                <option value="">-- Select City --</option>
 
-    <button type="submit" class="btn btn-primary">
-        Save
-    </button>
+            </select>
+        </div>
 
-    <a asp-action="Index" class="btn btn-secondary">
-        Cancel
-    </a>
+        <button type="submit" class="btn btn-primary">
+            Save
+        </button>
 
-</form>
+        <a asp-action="Index" class="btn btn-secondary">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
 
 @section Scripts {
 
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
     <script>
 
-        // Country → State
-        $("#country").change(function () {
+        $(document).ready(function () {
 
-            var countryId = $(this).val();
+            var countryId = $("#country").val();
+            var stateId = "@Model.StateId";
+            var cityId = "@Model.CityId";
 
-            $("#state").empty();
-            $("#city").empty();
+            console.log("Country:", countryId);
+            console.log("State:", stateId);
+            console.log("City:", cityId);
 
-            $("#state").append(
-                '<option value="">-- Select State --</option>'
-            );
-
-            $("#city").append(
-                '<option value="">-- Select City --</option>'
-            );
-
+            // Load states
             if (countryId) {
 
-                $.getJSON(
-                    '/Student/GetStates?countryId=' + countryId,
-                    function (states) {
+                $.ajax({
+                    url: '@Url.Action("GetStates", "Student")',
+                    type: 'GET',
+                    data: {
+                        countryId: countryId
+                    },
+                    success: function (states) {
+
+                        $("#state").empty();
+
+                        $("#state").append(
+                            '<option value="">-- Select State --</option>'
+                        );
 
                         $.each(states, function (index, state) {
 
@@ -126,47 +135,140 @@
 
                         });
 
+                        // Select existing state
+                        $("#state").val(stateId);
+
+                        // Load cities
+                        if (stateId) {
+
+                            $.ajax({
+                                url: '@Url.Action("GetCities", "Student")',
+                                type: 'GET',
+                                data: {
+                                    stateId: stateId
+                                },
+                                success: function (cities) {
+
+                                    $("#city").empty();
+
+                                    $("#city").append(
+                                        '<option value="">-- Select City --</option>'
+                                    );
+
+                                    $.each(cities, function (index, city) {
+
+                                        $("#city").append(
+                                            '<option value="' +
+                                            city.id +
+                                            '">' +
+                                            city.name +
+                                            '</option>'
+                                        );
+
+                                    });
+
+                                    // Select existing city
+                                    $("#city").val(cityId);
+
+                                }
+                            });
+
+                        }
+
                     }
-                );
+                });
+
             }
 
-        });
 
+            // Country changed
+            $("#country").change(function () {
 
-        // State → City
-        $("#state").change(function () {
+                var countryId = $(this).val();
 
-            var stateId = $(this).val();
+                $("#state").empty();
+                $("#city").empty();
 
-            $("#city").empty();
-
-            $("#city").append(
-                '<option value="">-- Select City --</option>'
-            );
-
-            if (stateId) {
-
-                $.getJSON(
-                    '/Student/GetCities?stateId=' + stateId,
-                    function (cities) {
-
-                        $.each(cities, function (index, city) {
-
-                            $("#city").append(
-                                '<option value="' +
-                                city.id +
-                                '">' +
-                                city.name +
-                                '</option>'
-                            );
-
-                        });
-
-                    }
+                $("#state").append(
+                    '<option value="">-- Select State --</option>'
                 );
-            }
+
+                $("#city").append(
+                    '<option value="">-- Select City --</option>'
+                );
+
+                if (countryId) {
+
+                    $.ajax({
+                        url: '@Url.Action("GetStates", "Student")',
+                        type: 'GET',
+                        data: {
+                            countryId: countryId
+                        },
+                        success: function (states) {
+
+                            $.each(states, function (index, state) {
+
+                                $("#state").append(
+                                    '<option value="' +
+                                    state.id +
+                                    '">' +
+                                    state.name +
+                                    '</option>'
+                                );
+
+                            });
+
+                        }
+                    });
+
+                }
+
+            });
+
+
+            // State changed
+            $("#state").change(function () {
+
+                var stateId = $(this).val();
+
+                $("#city").empty();
+
+                $("#city").append(
+                    '<option value="">-- Select City --</option>'
+                );
+
+                if (stateId) {
+
+                    $.ajax({
+                        url: '@Url.Action("GetCities", "Student")',
+                        type: 'GET',
+                        data: {
+                            stateId: stateId
+                        },
+                        success: function (cities) {
+
+                            $.each(cities, function (index, city) {
+
+                                $("#city").append(
+                                    '<option value="' +
+                                    city.id +
+                                    '">' +
+                                    city.name +
+                                    '</option>'
+                                );
+
+                            });
+
+                        }
+                    });
+
+                }
+
+            });
 
         });
 
     </script>
+
 }
