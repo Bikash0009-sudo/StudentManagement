@@ -14,9 +14,9 @@ namespace StudentManagementSystem.Controllers
             _context = context;
         }
 
-        // =========================
+
         // STUDENT LIST
-        // =========================
+   
         public async Task<IActionResult> Index()
         {
             var students = await _context.Students.ToListAsync();
@@ -25,9 +25,9 @@ namespace StudentManagementSystem.Controllers
         }
 
 
-        // =========================
+
         // CREATE - GET
-        // =========================
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -36,10 +36,8 @@ namespace StudentManagementSystem.Controllers
             return View();
         }
 
-
-        // =========================
         // GET STATES
-        // =========================
+
         [HttpGet]
         public async Task<JsonResult> GetStates(int countryId)
         {
@@ -56,9 +54,9 @@ namespace StudentManagementSystem.Controllers
         }
 
 
-        // =========================
+
         // GET CITIES
-        // =========================
+
         [HttpGet]
         public async Task<JsonResult> GetCities(int stateId)
         {
@@ -75,9 +73,8 @@ namespace StudentManagementSystem.Controllers
         }
 
 
-        // =========================
         // CREATE - POST
-        // =========================
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Student student)
@@ -152,9 +149,8 @@ namespace StudentManagementSystem.Controllers
         }
 
 
-        // =========================
         // EDIT - GET
-        // =========================
+  
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -178,9 +174,7 @@ namespace StudentManagementSystem.Controllers
         }
 
 
-        // =========================
         // EDIT - POST
-        // =========================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Student student)
@@ -259,10 +253,8 @@ namespace StudentManagementSystem.Controllers
             return View(student);
         }
 
-
-        // =========================
         // DELETE - GET
-        // =========================
+
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -283,9 +275,8 @@ namespace StudentManagementSystem.Controllers
         }
 
 
-        // =========================
         // DELETE - POST
-        // =========================
+
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -305,9 +296,8 @@ namespace StudentManagementSystem.Controllers
         }
 
 
-        // =========================
         // LOAD COUNTRIES
-        // =========================
+
         private async Task LoadCountries(int? selectedCountryId = null)
         {
             ViewBag.Countries = new SelectList(
